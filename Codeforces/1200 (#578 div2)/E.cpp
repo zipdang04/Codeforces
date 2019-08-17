@@ -4,8 +4,8 @@ using namespace std;
 #define long long long
 
 #define MOD 1000000009
-#define MAX 100000
-#define BASE 809
+#define MAX 1000000
+#define BASE 311
 
 vector<long> hashCode[MAX];
 vector<long> hashMain;
@@ -38,7 +38,8 @@ void findSame(long index){
 	for(long i = start; i <= len; i++){
 		long left, right;
 		if (i < len){
-			left = (hashMain[len - 1] - hashMain[i - 1] + MOD) % MOD;
+			if (i == 0) left = hashMain[len - 1];
+			else left = (hashMain[len - 1] - hashMain[i - 1] + MOD) % MOD;
 			right = (curr[attach - 1] * multiplier[i]) % MOD;
 		}
 		if (i == len || left == right){
@@ -64,7 +65,9 @@ int main() {
 	}
 
 	hashMain = hashCode[0]; ans = s[0];
-	for(long i = 1; i < n; i++) findSame(i);
-	
+	for(long i = 1; i < n; i++){
+		findSame(i);
+		// cout << "curr: " << ans << ' ' << hashMain.size() << endl;
+	}	
 	cout << ans;
 }

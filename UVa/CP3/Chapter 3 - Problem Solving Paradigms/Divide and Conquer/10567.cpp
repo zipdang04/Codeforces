@@ -4,7 +4,7 @@ using namespace std;
 #define long long long
 #define pair pair<char, long>
 
-#define MAX 100000
+#define MAX 1000000
 
 pair letter[MAX];
 
@@ -17,7 +17,7 @@ int main() {
 	long n; cin >> n;
 	for (long iii = 0; iii < n; iii++){
 		cin >> s; long candLen = s.length();
-		cout << s;
+		// cout << s;
 		long currCandidate = 0; bool ok = true;
 		long begin = INT_MAX, end = INT_MIN;
 		
@@ -38,6 +38,10 @@ int main() {
 			if (letter[left].first != curr){
 				ok = false; break;
 			}
+            if (letter[left].second < currCandidate){
+				ok = false; break;
+			}
+
 			currCandidate = letter[left].second;
 			begin = min(begin, currCandidate);
 			end = max(end, currCandidate);

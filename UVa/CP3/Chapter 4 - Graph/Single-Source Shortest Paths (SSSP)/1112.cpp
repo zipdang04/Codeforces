@@ -47,6 +47,10 @@ bool Dijkstra(ll st, ll fi){
     return ans[fi] <= t;
 }
 
+void refresh(){
+    for (int i = 1; i <= n; i++) graph[i].clear();
+}
+
 main()
 {
     ll test; cin >> test;
@@ -63,6 +67,7 @@ main()
         for (ll i = 1; i <= n; i++)
             answer += Dijkstra(i, e);
         cout << answer;
+        refresh();
     }
     
     return 0;

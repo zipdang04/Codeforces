@@ -53,6 +53,8 @@ void refresh(){
 
 main()
 {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    freopen("1112.inp", "r", stdin);
     ll test; cin >> test;
     for (ll iiii = 0; iiii < test; iiii++)
     {
@@ -61,12 +63,12 @@ main()
         {
             ll u, v, len; cin >> u >> v >> len;
             graph[u].push_back(Node(v, len));
-            graph[v].push_back(Node(u, len));
+            // graph[v].push_back(Node(u, len));
         }
         ll answer = 0;
         for (ll i = 1; i <= n; i++)
             answer += Dijkstra(i, e);
-        cout << answer;
+        cout << answer << "\n\n";
         refresh();
     }
     

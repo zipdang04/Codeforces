@@ -54,10 +54,12 @@ void refresh(){
 main()
 {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
-    freopen("1112.inp", "r", stdin);
+    // freopen("1112.inp", "r", stdin);
+    // freopen("1112.out", "w", stdout);
     ll test; cin >> test;
     for (ll iiii = 0; iiii < test; iiii++)
     {
+        if (iiii > 0) cout << "\n";
         ll m; cin >> n >> e >> t >> m;
         for (ll i = 0; i < m; i++)
         {
@@ -68,7 +70,7 @@ main()
         ll answer = 0;
         for (ll i = 1; i <= n; i++)
             answer += Dijkstra(i, e);
-        cout << answer << "\n\n";
+        cout << answer << '\n';
         refresh();
     }
     

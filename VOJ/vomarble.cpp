@@ -45,8 +45,12 @@ typedef vector<Node> vg;
 #define cntBitll(n) __builtin_popcountll(n)
 #define randomize mt19937_64 mt(chrono::steady_clock::now().time_since_epoch().count());
 
+const int sz = 62;
+
+int n, m, k;
+
 int main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0);
-    // /workspace/CompetitiveProgramming/cpptools-linux.vsix
+    // 
 }

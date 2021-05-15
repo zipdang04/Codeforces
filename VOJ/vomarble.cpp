@@ -90,6 +90,7 @@ void power(Matrix &ans, ll n){
         if (n & 1) ans = ans * mul[i];
         n >>= 1;
     }
+    
 }
 
 pair<ll, pair<ll, char>> query[MAX];

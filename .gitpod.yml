@@ -1,4 +1,4 @@
 
 vscode:
   extensions:
-    - ms-vscode.cpptools
+    - "/workspace/CompetitiveProgramming/cpptools-linux.vsix"

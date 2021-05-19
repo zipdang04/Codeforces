@@ -48,58 +48,50 @@ typedef vector<Node> vg;
 class Flow{
     struct Edge{int from, dest, oppo; ll capa;};
     private:
-        const ll oo = 1e18;
+        const ll oo = 1ll << 60;
         vector<Edge> edges, resi;
         vector<vector<int>> graph;
         int n, m, s, t;
 
         const int NaN = -1;
-        vector<int> level; int maxLevel;
-        vector<bool> dead;
-        stack<int> usedNode;
-        bool buildLevel(){
-            while (!usedNode.empty()){
-                int node = usedNode.top(); usedNode.pop();
-                level[node] = NaN, dead[node] = false;
-            }
+        vector<int> level;
+        bool bfs(ll lim){
+            level = vector<int>(n, NaN);
 
             queue<int> q; 
             
             q.push(s); level[s] = 0;
             while (!q.empty()){
                 int node = q.front(); q.pop();
-                usedNode.push(node);
                 int nodeLvl = level[node];
 
                 for (int idx: graph[node]){
                     Edge e = resi[idx];
-                    if (!e.capa || level[e.dest] != NaN) continue;
+                    if (e.capa < lim || level[e.dest] != NaN) continue;
                     
                     q.push(e.dest); level[e.dest] = nodeLvl + 1;
                 }
             }
 
-
-            maxLevel = level[t];
-            return maxLevel != NaN;
+            return level[t] != NaN;
         }
         
-        ll findFlow(int node, ll bottleNeck){
-            if (node == t) return bottleNeck;
+        bool dfs(int node, ll lim){
+            if (node == t) return true;
             int currLevel = level[node];
 
             for (int idx: graph[node]){
                 Edge e = resi[idx];
-                if (e.capa == 0 || dead[e.dest] || level[e.dest] != currLevel + 1) continue;
+                if (e.capa < lim || level[e.dest] != currLevel + 1) continue;
 
-                ll tmp = findFlow(e.dest, min(e.capa, bottleNeck));
-                if (tmp != NaN){
-                    resi[idx].capa -= tmp;
-                    resi[e.oppo].capa += tmp;
-                    return tmp;
+                if (dfs(e.dest, lim)){
+                    resi[idx].capa -= lim;
+                    resi[e.oppo].capa += lim;
+                    return true;
                 }
             }
-            dead[node] = true; return NaN;
+
+            return false;
         }
 
     public:
@@ -107,8 +99,6 @@ class Flow{
             m = 0;
             edges.clear(); 
             graph = vector<vector<int>>(n);
-            level = vector<int>(n, NaN);
-            dead = vector<bool>(n, false);
         }
 
         void addEdge(int from, int dest, ll capa){
@@ -121,12 +111,14 @@ class Flow{
 
         ll calculate(){
             resi = edges; ll answer = 0;
-            while (buildLevel())
-                while (true){
-                    ll bottleNeck = findFlow(s, oo);
-                    if (bottleNeck == NaN) break;
-                    answer += bottleNeck;
+            ll tmp = oo;
+            while (tmp){
+                if (!bfs(tmp)){
+                    tmp >>= 1; continue;
                 }
+                while (dfs(s, tmp))
+                    answer += tmp;
+            }
             return answer;
         }
 };

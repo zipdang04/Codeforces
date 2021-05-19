@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 typedef long long ll;
 
 #define FOR(type, i, a, b) for(type i = (a); i <= (b); i++)
@@ -17,6 +16,8 @@ class Flow{
 
         const int NaN = -1;
         vector<int> level;
+        vector<int> ptr;
+
         bool bfs(ll lim){
             level = vector<int>(n, NaN);
 
@@ -42,7 +43,9 @@ class Flow{
             if (node == t) return true;
             int currLevel = level[node];
 
-            for (int idx: graph[node]){
+            int i = ptr[node], maxSize = graph[node].size();
+            for (; i < maxSize; i++){
+                int idx = graph[node][i];
                 Edge e = resi[idx];
                 if (e.capa < lim || level[e.dest] != currLevel + 1) continue;
 
@@ -78,6 +81,8 @@ class Flow{
                 if (!bfs(tmp)){
                     tmp >>= 1; continue;
                 }
+
+                ptr = vector<int>(n, 0);
                 while (dfs(s, tmp))
                     answer += tmp;
             }

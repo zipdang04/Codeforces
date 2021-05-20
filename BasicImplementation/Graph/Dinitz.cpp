@@ -43,7 +43,7 @@ class Flow{
             if (node == t) return true;
             int currLevel = level[node];
 
-            int i = ptr[node], maxSize = graph[node].size();
+            int &i = ptr[node], maxSize = graph[node].size();
             for (; i < maxSize; i++){
                 int idx = graph[node][i];
                 Edge e = resi[idx];
